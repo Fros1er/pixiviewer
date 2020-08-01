@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "aria2": "^4.1.0",
+    "redis": "^2.8.0",
+    "websocket": "^1.0.31"
+  }
+}
