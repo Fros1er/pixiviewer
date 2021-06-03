@@ -6,12 +6,28 @@
 // @author       You
 // @include     http*://www.pixiv.net*
 // @match       http://www.pixiv.net/
-// @grant        none
+// @require     https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js
 // ==/UserScript==
 
 "use strict";
 
+var $ = unsafeWindow.jQuery;
+
 const interval = 100;
+
+//屏蔽功能
+const users = ['Kuro-bee', 'PantsuDesu', 'KFR'];
+setInterval(() => {
+    let user_in_page = document.getElementsByClassName('sc-jwKUVf')
+    for (let i of user_in_page) {
+        let thisuser = i.getElementsByClassName('sc-prOVx')[0].innerHTML;
+        for (let j of users) {
+            if (j == thisuser) {
+                i.getElementsByTagName('img')[0].src = "";
+            }
+        }
+    };
+}, interval);
 
 var path = window.location.pathname.split("/")[1];
 if (path == "bookmark_add.php") {
@@ -41,7 +57,7 @@ if (path == "bookmark_add.php") {
         }
     }, interval);
     if (path == "bookmark.php") {
-        
+
         let myspan = document.createElement('a')
         myspan.innerText = "下载全部"
         myspan.onclick = () => {

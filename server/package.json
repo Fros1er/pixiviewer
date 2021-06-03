@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "aria2": "^4.1.0",
-    "redis": "^2.8.0",
+    "mysql": "^2.18.1",
+    "request": "^2.88.2",
     "websocket": "^1.0.31"
   }
 }

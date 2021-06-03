@@ -1,1 +1,2 @@
-node F:\code\资源保存\pixiviewer\server\server.js
+node D:\资源保存\pixiviewer\server\server.js
+pause

@@ -126,20 +126,57 @@ th {
     }
   }
 }
-.githubdata {
+
+.headerwrapper {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+.header {
+  height: 80px;
+  line-height: 80px;
+  z-index: 100;
+  position: relative;
+}
+
+.headerwrapper .container {
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid #dcdfe6;
+  width: 1140px;
+}
+
+.header h1 {
+  margin-left: 50px;
+  float: left;
+  font-size: 32px;
+  font-weight: 400;
+}
+.nav {
+  background: transparent;
+  margin: 0;
   float: right;
-  margin-right: 90px;
-  img {
-    width: 14px;
-    // height: 16px;
-  }
 }
 </style>
 <template>
   <div class="container-water-fall">
     <!-- <h1 style="position: fixed;left: 0;top: 100px;font-style: 15px;color:blue;z-index: 1000;">{{loadstatus}}</h1> -->
-    <!-- div class="btn-group">
-            <input class="box" :placeholder="placeholder" v-model="query" />
+    <div class="headerwrapper">
+      <header class="header">
+        <div class="container">
+          <h1>Pixiviewer</h1>
+          <ul class="nav">
+            <li class="navitem search">
+              <div class="input">
+                <input />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <!--<input class="box" :placeholder="placeholder" v-model="query" />
             <div class="menu">
                 <div class="main" v-clickoutside="handleClose">
                     <button @click="show = !show">点击显示下拉菜单</button>
@@ -147,15 +184,14 @@ th {
                         <p>下拉框的内容,点击外面区域可以关闭</p>
                     </div>
                 </div>
-            </div>
-        </div-->
+            </div-->
+    </div>
     <div><button @click="loadmore">loadmore</button> <button @click="switchCol('5')">5列</button> <button @click="switchCol('8')">8列</button> <button @click="switchCol('10')">10列</button> </div>
-    <waterfall
+    ><waterfall
       :col="5"
       :data="data"
       @loadmore="loadmore"
       :lazyDistance="50"
-      @scroll="scroll"
       :loadDistance="50"
     >
       <template>
@@ -168,7 +204,7 @@ th {
         >
           <img
             v-if="item.path"
-            :lazy-src="'/static/'+item.path"
+            :lazy-src="'./static/'+item.path"
             :alt="item.illustTitle"
           />
           <div class="item-body">
@@ -263,9 +299,6 @@ export default {
     }
   },
   methods: {
-    scroll (scrollData) {
-      console.log(scrollData)
-    },
 
     switchCol (col) {
       this.col = col
@@ -278,7 +311,6 @@ export default {
 
     shuffle () {
       let ans = []
-      console.log('startshuffle')
       fetch('http://127.0.0.1:9876?action=getnum')
         .then(function (res) {
           return res.text()
@@ -294,7 +326,6 @@ export default {
             ans[i] = ans[k]
             ans[k] = tmp
           }
-          console.log(ans)
           this.shuffled = ans
           this.loadmore()
         })
@@ -302,13 +333,10 @@ export default {
     },
 
     loadmore () {
-      console.log(this)
-      console.log('loadmore')
       let reqlist = []
       for (let i = this.start; i < this.start + 25; i++) {
         reqlist.push(this.shuffled[i])
       }
-      console.log(JSON.stringify({id: reqlist}))
       fetch('http://127.0.0.1:9876', {
         method: 'POST',
         headers: {
@@ -321,9 +349,7 @@ export default {
         .then((res) => res.text())
         .then(data => {
           this.data = this.data.concat(JSON.parse(data))
-          console.log(this.data)
           this.start = this.start + 25
-          console.log(this.start)
         })
         .catch(err => {
           console.log(err)
@@ -333,7 +359,7 @@ export default {
     /* loadmore () {
       console.log('loadmore')
       fetch(
-        'http://127.0.0.1:9876?action=get' +
+        'http://10.17.113.217:9876?action=get' +
         '&start=' +
         this.start +
         '&num=25',

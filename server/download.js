@@ -23,7 +23,7 @@ function callaria2(url, illustId) {
                 "Referer:https://www.pixiv.net/member_illust.php?mode=medium&illust_id=" +
                     illustId
             ],
-            dir: 'F:/code/资源保存/pixiviewer/pixiviewer/static'
+            dir: 'D:/资源保存/pixiviewer/release/static'
         })
         .then(gid => (arr[gid] = url));
     aria2.on("onDownloadComplete", params => {

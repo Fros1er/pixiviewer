@@ -3,7 +3,7 @@ var mysql = require("mysql");
 var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "your passwd",
+    password: "198101602",
     database: "pixiv",
     charset: "utf8mb4"
 });
@@ -104,12 +104,18 @@ function get(start, num) {
     return query("SELECT * FROM `favourites` LIMIT " + start + ", " + num)
 }
 
+function gettag(tag) {
+    return query("SELECT favourites.* FROM tag INNER JOIN favourites ON favourites.illustId = tag.illustId WHERE tag.tags = ?", [tag])
+}
+
 function getexact(num) {
-    return query("SELECT * FROM `favourites` LIMIT " + num + ", " + "1")
+    //return query("SELECT * FROM `favourites` LIMIT " + num + ", " + "1")
+    return query('SELECT favourites.* FROM tag INNER JOIN favourites ON favourites.illustId = tag.illustId WHERE tag.tags = "おっぱい" LIMIT ' + num + ", 1")
 }
 
 function getnum() {
-    return query("SELECT COUNT(*) FROM `favourites`")
+    //return query("SELECT COUNT(*) FROM `favourites`")
+    return query('SELECT COUNT(*) FROM tag INNER JOIN favourites ON favourites.illustId = tag.illustId WHERE tag.tags = "おっぱい"')
 }
 
 module.exports = {
@@ -122,5 +128,6 @@ module.exports = {
     remove,
     get,
     getnum,
-    getexact
+    getexact,
+    gettag
 };
